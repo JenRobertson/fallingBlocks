@@ -12,7 +12,10 @@ const BOARD_MARGIN_RIGHT = 100;
 const BOARD_COLOR = '#a996e4';
 
 const BLOCK_FALL_SPEED_SLOW = 1;
-const BLOCK_FALL_SPEED_FAST = 5;
+const BLOCK_FALL_SPEED_FAST = 10;
+
+var fallingBlock;
+
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 
 var blockLayout;
@@ -26,18 +29,9 @@ window.onload = function () {
 
 	ctx = c.getContext("2d");
 
+	resetFallingBlock();
 	blockLayout = generateBlocksArray();
 	console.log(blockLayout);
-
-
-	fallingBlock = {
-		x: 0,
-		y: 0,
-		type: 1,
-		column: 0,
-		row: 0,
-		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
-	}
 
 	document.onkeydown = function(e) {
 	    switch (e.keyCode) {
@@ -91,6 +85,17 @@ function frame(){
 	window.requestAnimationFrame(frame);
 }
 
+function resetFallingBlock(){
+	fallingBlock = {
+		x: BLOCK_WIDTH * 3,
+		y: 0,
+		type: Math.floor((Math.random() * 4) + 1),
+		column: 3,
+		row: 0,
+		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
+	}
+}
+
 function drawBoardArea(){
 	ctx.fillStyle=BOARD_COLOR;
 	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
@@ -110,7 +115,9 @@ function updateFallingBlock(){
 		fallingBlock.y+= currentBlockFallSpeed;
 	}
 	else{//its at destination
-		
+		console.log(getAvailableRow(fallingBlock.column));
+		blockLayout[fallingBlock.column][getAvailableRow(fallingBlock.column)] = fallingBlock;
+		resetFallingBlock();
 	}
 }
 
@@ -140,3 +147,12 @@ function getAvailableSpace(column){
 	//todo: handle a row being full
 }
 
+function getAvailableRow(column){
+	for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
+		if(blockLayout[column][row].type){
+			return row - 1;
+		}
+	}	
+	return 12;
+	//todo: handle a row being full
+}
