@@ -43,14 +43,18 @@ window.onload = function () {
 	    switch (e.keyCode) {
 	        case 37:
 	            //left
-	            if(fallingBlock.column > 0){
+	            var isNotAtEdge = fallingBlock.column > 0;
+
+	            if(isNotAtEdge && !fallingBlock.hasBlockToLeft){
 	            	fallingBlock.x-=BLOCK_WIDTH;
 	            	fallingBlock.column--;
 	        	}
 	            break;
 	        case 39:
 	            //right
-	            if(fallingBlock.column < BLOCKS_PER_ROW -1){
+	            var isNotAtEdge = fallingBlock.column < BLOCKS_PER_ROW -1;
+
+	            if(isNotAtEdge && !fallingBlock.hasBlockToRight){
 	            	fallingBlock.x+=BLOCK_WIDTH;
 	            	fallingBlock.column++;
 	            }
@@ -80,17 +84,7 @@ function frame(){
 
 	drawBoardArea();
 
-	// console.log(fallingBlock);
-
-	fallingBlock.destinationY = getAvailableSpace(fallingBlock.column).y;
-
-	if(fallingBlock.y < fallingBlock.destinationY){//its falling
-		fallingBlock.y+= currentBlockFallSpeed;
-	}
-	else{//its at destination
-
-	}
-
+	updateFallingBlock();
 	drawBlock(fallingBlock);
 	drawBlocks();
 
@@ -105,11 +99,44 @@ function drawBoardArea(){
 	ctx.fillStyle='#000000';
 }
 
+
+
+function updateFallingBlock(){
+	checkIfHasBlocksToLeftOrRight();
+	fallingBlock.row = Math.ceil(fallingBlock.y/BLOCK_HEIGHT);
+	fallingBlock.destinationY = getAvailableSpace(fallingBlock.column).y;
+
+	if(fallingBlock.y < fallingBlock.destinationY){//if its falling
+		fallingBlock.y+= currentBlockFallSpeed;
+	}
+	else{//its at destination
+		
+	}
+}
+
+function checkIfHasBlocksToLeftOrRight(){
+    if(blockLayout[fallingBlock.column - 1] && blockLayout[fallingBlock.column - 1][fallingBlock.row].type){
+    	fallingBlock.hasBlockToLeft = true;
+    }
+    else{
+    	fallingBlock.hasBlockToLeft = false;
+    }
+
+    if(blockLayout[fallingBlock.column + 1] && blockLayout[fallingBlock.column + 1][fallingBlock.row].type){
+    	fallingBlock.hasBlockToRight = true;
+    }
+    else{
+    	fallingBlock.hasBlockToRight = false;
+    }
+}
+
 function getAvailableSpace(column){
 	for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
-		if(blockLayout[column][row].type > 0){
+		if(blockLayout[column][row].type){
 			return blockLayout[column][row - 1];
 		}
 	}	
 	return {y: BOARD_HEIGHT - BLOCK_HEIGHT};
+	//todo: handle a row being full
 }
+
