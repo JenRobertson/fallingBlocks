@@ -12,16 +12,26 @@ function generateBlocksArray(){
 				x,
 				y,
 				type: null,
+				color: null,
 				column: column,
 				row: row,
 				destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
 			}
 		}
 	}
-	blockLayout[0][12].type = 2;
-	blockLayout[0][11].type = 3;
-	blockLayout[5][12].type = 3;
-	blockLayout[5][11].type = 3;
-	blockLayout[5][10].type = 3;
+	blockLayout[0][12].type = 'block';
+	blockLayout[0][12].color = 1;
+
+	blockLayout[0][11].type = 'block';
+	blockLayout[0][11].color = 2;
+
+	blockLayout[5][12].type = 'block';
+	blockLayout[5][12].color = 3;
+
+	blockLayout[5][11].type = 'block';
+	blockLayout[5][11].color = 0;
+
+	blockLayout[5][10].type = 'block';
+	blockLayout[5][10].color = 1;
 	return blockLayout;
 }

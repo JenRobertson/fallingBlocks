@@ -2,7 +2,11 @@ function drawBlock(block){
 	ctx.beginPath();
 
 	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-    ctx.drawImage(BLOCK_IMAGES[block.type - 1], BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
+	let image;
+	if (block.type === 'block') image = BLOCK_IMAGES[block.color];
+	if (block.type === 'breaker') image = BREAKER_IMAGES[block.color];
+
+    ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
 }
 
 function drawBlocks(){
