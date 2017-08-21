@@ -14,6 +14,20 @@ const BOARD_COLOR = '#a996e4';
 const BLOCK_FALL_SPEED_SLOW = 1;
 const BLOCK_FALL_SPEED_FAST = 10;
 
+
+const BLOCK_IMAGES = [
+	document.getElementById("block1"),
+	document.getElementById("block2"),
+	document.getElementById("block3"),
+	document.getElementById("block4"),
+	document.getElementById("breaker1"),
+	document.getElementById("breaker2"),
+	document.getElementById("breaker3"),
+	document.getElementById("breaker4"),
+];
+
+
+
 var fallingBlock;
 
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
@@ -89,7 +103,7 @@ function resetFallingBlock(){
 	fallingBlock = {
 		x: BLOCK_WIDTH * 3,
 		y: 0,
-		type: Math.floor((Math.random() * 4) + 1),
+		type: Math.floor((Math.random() * 8) + 1),
 		column: 3,
 		row: 0,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
