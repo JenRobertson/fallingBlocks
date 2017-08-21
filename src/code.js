@@ -16,14 +16,12 @@ const BLOCK_FALL_SPEED_FAST = 10;
 
 const BREAKER_RARITY = 4;//higher is more rare
 
-
 const BLOCK_IMAGES = [
 	document.getElementById("block1"),
 	document.getElementById("block2"),
 	document.getElementById("block3"),
 	document.getElementById("block4")
 ];
-
 const BREAKER_IMAGES = [
 	document.getElementById("breaker1"),
 	document.getElementById("breaker2"),
@@ -32,10 +30,8 @@ const BREAKER_IMAGES = [
 ];
 
 var fallingBlock = [];
-
-var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
-
 var blockLayout;
+var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 
 window.onload = function () {
 	c = document.getElementById("myCanvas");
@@ -47,47 +43,6 @@ window.onload = function () {
 
 	spawnFallingBlocks();
 	blockLayout = generateBlocksArray();
-	console.log(blockLayout);
-
-	document.onkeydown = function(e) {
-	    switch (e.keyCode) {
-	        case 37:
-							//left
-							var isNotAtEdge = fallingBlock[0].column > 0 && fallingBlock[1].column > 0;
-							var isNotBlocked = !fallingBlock[0].hasBlockToLeft && !fallingBlock[1].hasBlockToLeft;
-
-							if(isNotAtEdge && isNotBlocked){
-								moveLeft(fallingBlock[0]);
-								moveLeft(fallingBlock[1]);
-							}
-	            break;
-	        case 39:
-							//right
-							var isNotAtEdge = fallingBlock[0].column < BLOCKS_PER_ROW -1 && fallingBlock[1].column < BLOCKS_PER_ROW -1;
-							var isNotBlocked = !fallingBlock[0].hasBlockToRight && !fallingBlock[1].hasBlockToRight;
-
-							if(isNotAtEdge && isNotBlocked){
-								moveRight(fallingBlock[0]);
-								moveRight(fallingBlock[1]);
-							}
-	            break;
-	        case 32:
-	            //SPACE
-	            currentBlockFallSpeed = BLOCK_FALL_SPEED_FAST;
-	            break;
-	    }
-	};
-
-	document.onkeyup = function(e) {
-	    switch (e.keyCode) {
-	        case 32:
-	            //SPACE
-	            currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
-	            break;
-	       }
-	};
-
-
 	window.requestAnimationFrame(frame);
 }
 
@@ -174,7 +129,6 @@ function updateFallingBlocks(){
 		fallingBlock[0].y+= currentBlockFallSpeed;
 	}
 	else{//its at destination
-		console.log('0', getAvailableRow(fallingBlock[0].column));
 		blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
 	}
 	//2
@@ -187,7 +141,6 @@ function updateFallingBlocks(){
 		fallingBlock[1].y+= currentBlockFallSpeed;
 	}
 	else{//its at destination
-		console.log('1',getAvailableRow(fallingBlock[1].column));
 		blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
 		spawnFallingBlocks();//DONT COPY THIS TO THE OTHER ONE FOR GODS SAKE
 	}
