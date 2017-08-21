@@ -1,5 +1,5 @@
 function generateBlocksArray(){
-	var blockLayout = new Array(BLOCKS_PER_COLUMN);//columns
+	var blockLayout = new Array(BLOCKS_PER_ROW);//columns
 
 	for (column = 0; column < BLOCKS_PER_ROW; column++) {
 		blockLayout[column] = new Array(BLOCKS_PER_COLUMN);
@@ -20,5 +20,8 @@ function generateBlocksArray(){
 	}
 	blockLayout[0][12].type = 2;
 	blockLayout[0][11].type = 3;
+	blockLayout[5][12].type = 3;
+	blockLayout[5][11].type = 3;
+	blockLayout[5][10].type = 3;
 	return blockLayout;
 }

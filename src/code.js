@@ -26,14 +26,11 @@ const BLOCK_IMAGES = [
 	document.getElementById("breaker4"),
 ];
 
-
-
-var fallingBlock;
+var fallingBlock = [];
 
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 
 var blockLayout;
-var fallingBlock;
 
 window.onload = function () {
 	c = document.getElementById("myCanvas");
@@ -43,29 +40,31 @@ window.onload = function () {
 
 	ctx = c.getContext("2d");
 
-	resetFallingBlock();
+	spawnFallingBlocks();
 	blockLayout = generateBlocksArray();
 	console.log(blockLayout);
 
 	document.onkeydown = function(e) {
 	    switch (e.keyCode) {
 	        case 37:
-	            //left
-	            var isNotAtEdge = fallingBlock.column > 0;
+							//left
+							var isNotAtEdge = fallingBlock[0].column > 0 && fallingBlock[1].column > 0;
+							var isNotBlocked = !fallingBlock[0].hasBlockToLeft && !fallingBlock[1].hasBlockToLeft;
 
-	            if(isNotAtEdge && !fallingBlock.hasBlockToLeft){
-	            	fallingBlock.x-=BLOCK_WIDTH;
-	            	fallingBlock.column--;
-	        	}
+							if(isNotAtEdge && isNotBlocked){
+								moveLeft(fallingBlock[0]);
+								moveLeft(fallingBlock[1]);
+							}
 	            break;
 	        case 39:
-	            //right
-	            var isNotAtEdge = fallingBlock.column < BLOCKS_PER_ROW -1;
+							//right
+							var isNotAtEdge = fallingBlock[0].column < BLOCKS_PER_ROW -1 && fallingBlock[1].column < BLOCKS_PER_ROW -1;
+							var isNotBlocked = !fallingBlock[0].hasBlockToRight && !fallingBlock[1].hasBlockToRight;
 
-	            if(isNotAtEdge && !fallingBlock.hasBlockToRight){
-	            	fallingBlock.x+=BLOCK_WIDTH;
-	            	fallingBlock.column++;
-	            }
+							if(isNotAtEdge && isNotBlocked){
+								moveRight(fallingBlock[0]);
+								moveRight(fallingBlock[1]);
+							}
 	            break;
 	        case 32:
 	            //SPACE
@@ -87,26 +86,48 @@ window.onload = function () {
 	window.requestAnimationFrame(frame);
 }
 
+function moveLeft(block){
+		block.x-=BLOCK_WIDTH;
+		block.column--;
+}
+
+function moveRight(block){
+	var isNotAtEdge = block.column < BLOCKS_PER_ROW -1;
+	if(isNotAtEdge && !block.hasBlockToRight){
+		block.x+=BLOCK_WIDTH;
+		block.column++;
+	}
+}
+
 function frame(){
 	ctx.clearRect(0, 0, c.width, c.height);
 
 	drawBoardArea();
 
-	updateFallingBlock();
-	drawBlock(fallingBlock);
+	updateFallingBlocks();
+	drawBlock(fallingBlock[0]);
+	drawBlock(fallingBlock[1]);
 	drawBlocks();
 
 	window.requestAnimationFrame(frame);
 }
 
-function resetFallingBlock(){
-	fallingBlock = {
+function spawnFallingBlocks(){
+	fallingBlock[0] = {
 		x: BLOCK_WIDTH * 3,
 		y: 0,
 		type: Math.floor((Math.random() * 8) + 1),
 		column: 3,
 		row: 0,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
+	}
+	fallingBlock[1] = {
+		x: BLOCK_WIDTH * 3,
+		y: BLOCK_HEIGHT,
+		type: Math.floor((Math.random() * 8) + 1),
+		column: 3,
+		row: 1,
+		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 2)
 	}
 }
 
@@ -120,34 +141,51 @@ function drawBoardArea(){
 
 
 
-function updateFallingBlock(){
-	checkIfHasBlocksToLeftOrRight();
-	fallingBlock.row = Math.ceil(fallingBlock.y/BLOCK_HEIGHT);
-	fallingBlock.destinationY = getAvailableSpace(fallingBlock.column).y;
+function updateFallingBlocks(){
+	//1
+	checkIfHasBlocksToLeftOrRight(fallingBlock[0]);
+	fallingBlock[0].row = Math.ceil(fallingBlock[0].y/BLOCK_HEIGHT);
+	fallingBlock[0].destinationY = getAvailableSpace(fallingBlock[0].column).y;
 
-	if(fallingBlock.y < fallingBlock.destinationY){//if its falling
-		fallingBlock.y+= currentBlockFallSpeed;
+	if(fallingBlock[0].y < fallingBlock[0].destinationY){//if its falling
+		fallingBlock[0].y+= currentBlockFallSpeed;
 	}
 	else{//its at destination
-		console.log(getAvailableRow(fallingBlock.column));
-		blockLayout[fallingBlock.column][getAvailableRow(fallingBlock.column)] = fallingBlock;
-		resetFallingBlock();
+		console.log(getAvailableRow(fallingBlock[0].column));
+		blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
+		spawnFallingBlocks();
+	}
+
+
+
+	//2
+	checkIfHasBlocksToLeftOrRight(fallingBlock[1]);
+	fallingBlock[1].row = Math.ceil(fallingBlock[1].y/BLOCK_HEIGHT);
+	fallingBlock[1].destinationY = getAvailableSpace(fallingBlock[1].column).y;
+
+	if(fallingBlock[1].y < fallingBlock[1].destinationY){//if its falling
+		fallingBlock[1].y+= currentBlockFallSpeed;
+	}
+	else{//its at destination
+		console.log(getAvailableRow(fallingBlock[1].column));
+		blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
+		// spawnFallingBlocks();
 	}
 }
 
-function checkIfHasBlocksToLeftOrRight(){
-    if(blockLayout[fallingBlock.column - 1] && blockLayout[fallingBlock.column - 1][fallingBlock.row].type){
-    	fallingBlock.hasBlockToLeft = true;
+function checkIfHasBlocksToLeftOrRight(block){
+    if(blockLayout[block.column - 1] && blockLayout[block.column - 1][block.row].type){
+    	block.hasBlockToLeft = true;
     }
     else{
-    	fallingBlock.hasBlockToLeft = false;
+    	block.hasBlockToLeft = false;
     }
 
-    if(blockLayout[fallingBlock.column + 1] && blockLayout[fallingBlock.column + 1][fallingBlock.row].type){
-    	fallingBlock.hasBlockToRight = true;
+    if(blockLayout[block.column + 1] && blockLayout[block.column + 1][block.row].type){
+    	block.hasBlockToRight = true;
     }
     else{
-    	fallingBlock.hasBlockToRight = false;
+    	block.hasBlockToRight = false;
     }
 }
 
@@ -156,7 +194,7 @@ function getAvailableSpace(column){
 		if(blockLayout[column][row].type){
 			return blockLayout[column][row - 1];
 		}
-	}	
+	}
 	return {y: BOARD_HEIGHT - BLOCK_HEIGHT};
 	//todo: handle a row being full
 }
@@ -166,7 +204,7 @@ function getAvailableRow(column){
 		if(blockLayout[column][row].type){
 			return row - 1;
 		}
-	}	
+	}
 	return 12;
 	//todo: handle a row being full
 }
