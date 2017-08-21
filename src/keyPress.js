@@ -48,20 +48,32 @@ function right(){
 var flipCount = 0;
 
 function up(){
+	console.log(flipCount);
+	const isOnRightEdge = fallingBlock[0].column === BLOCKS_PER_ROW - 1;
+	const isOnLeftEdge = fallingBlock[0].column === 0;
+
 	if(flipCount === 0){
+		if(fallingBlock[0].hasBlockToLeft) return;
+		if(isOnLeftEdge) return;
 		flipToLeft();
+		console.log('here')
+		flipCount++;
 	}
 	else if(flipCount === 1){
+		if(fallingBlock[0].hasBlockBelow) return;
 		flipToDown();
+		flipCount++;
 	}
 	else if(flipCount === 2){
+		if(fallingBlock[0].hasBlockToRight) return;
+		if(isOnRightEdge) return;
 		flipToRight();
+		flipCount++;
 	}
 	else if(flipCount === 3){
 		flipToUp();
+		flipCount++;
 	}
-
-	flipCount++;
 
 	if(flipCount > 3){
 		flipCount = 0;

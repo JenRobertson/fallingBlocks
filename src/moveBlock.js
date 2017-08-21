@@ -11,7 +11,7 @@ function moveRight(block){
 	}
 }
 
-function flipToLeft(){
+function flipToLeft(){	
 	fallingBlock[1].y=fallingBlock[0].y;
 	fallingBlock[1].x=fallingBlock[0].x - BLOCK_WIDTH;
 	fallingBlock[1].column = fallingBlock[0].column - 1;
