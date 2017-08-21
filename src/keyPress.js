@@ -44,6 +44,26 @@ function right(){
 	}
 }
 
+//bottom remains still
+var flipCount = 0;
+
 function up(){
-	
+	if(flipCount === 0){
+		flipToLeft();
+	}
+	else if(flipCount === 1){
+		flipToDown();
+	}
+	else if(flipCount === 2){
+		flipToRight();
+	}
+	else if(flipCount === 3){
+		flipToUp();
+	}
+
+	flipCount++;
+
+	if(flipCount > 3){
+		flipCount = 0;
+	}
 }

@@ -46,19 +46,6 @@ window.onload = function () {
 	window.requestAnimationFrame(frame);
 }
 
-function moveLeft(block){
-		block.x-=BLOCK_WIDTH;
-		block.column--;
-}
-
-function moveRight(block){
-	var isNotAtEdge = block.column < BLOCKS_PER_ROW -1;
-	if(isNotAtEdge && !block.hasBlockToRight){
-		block.x+=BLOCK_WIDTH;
-		block.column++;
-	}
-}
-
 function frame(){
 	ctx.clearRect(0, 0, c.width, c.height);
 
@@ -73,6 +60,7 @@ function frame(){
 }
 
 function spawnFallingBlocks(){
+	//middle block
 	fallingBlock[0] = {
 		x: BLOCK_WIDTH * 3,
 		y: -BLOCK_HEIGHT,
@@ -82,7 +70,9 @@ function spawnFallingBlocks(){
 		row: -2,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
 	}
+	//flippy block
 	fallingBlock[1] = {
+		side: 'top',
 		x: BLOCK_WIDTH * 3,
 		y: -(BLOCK_HEIGHT * 2),
 		type: getRandomBlockType(),
