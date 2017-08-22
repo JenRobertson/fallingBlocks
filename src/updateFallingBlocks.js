@@ -4,10 +4,15 @@ function updateFallingBlocks(){
   updateFallingBlockValues(fallingBlock[1]);
 
   const oneHasLanded = !fallingBlock[0].isFalling && fallingBlock[1].isFalling || fallingBlock[0].isFalling && !fallingBlock[1].isFalling
-  const bothHaveLanded = !fallingBlock[0].isFalling && !fallingBlock[1].isFalling;
+  var bothHaveLanded = !fallingBlock[0].isFalling && !fallingBlock[1].isFalling;
 
   if(oneHasLanded){
-    currentBlockFallSpeed = BLOCK_FALL_SPEED_SUPER_FAST;
+    if(fallingBlock[1].side === 'left' || fallingBlock[1].side === 'right'){
+      currentBlockFallSpeed = BLOCK_FALL_SPEED_SUPER_FAST;
+    }
+    else{
+      bothHaveLanded = true;
+    }
   }
 
   if(bothHaveLanded){

@@ -10,7 +10,7 @@ document.onkeydown = function(e) {
 				right();
 	            break;
 	        case 32:
-				currentBlockFallSpeed = BLOCK_FALL_SPEED_FAST;	           
+				currentBlockFallSpeed = BLOCK_FALL_SPEED_FAST;
 	            break;
 	    }
 	};
