@@ -19,9 +19,6 @@ function generateBlocksArray(){
 			}
 		}
 	}
-	blockLayout[0][12].type = 'block';
-	blockLayout[0][12].color = 1;
-
 	blockLayout[0][11].type = 'block';
 	blockLayout[0][11].color = 2;
 
@@ -33,5 +30,26 @@ function generateBlocksArray(){
 
 	blockLayout[5][10].type = 'block';
 	blockLayout[5][10].color = 1;
+
+
+	blockLayout[0][12].type = 'block';
+	blockLayout[0][12].color = 1;
+
+	blockLayout[1][12].type = 'block';
+	blockLayout[1][12].color = 1;
+
+	blockLayout[2][12].type = 'block';
+	blockLayout[2][12].color = 1;
+
+	blockLayout[3][12].type = 'block';
+	blockLayout[3][12].color = 1;
+
+	blockLayout[4][12].type = 'block';
+	blockLayout[4][12].color = 1;
+
+	blockLayout[5][12].type = 'block';
+	blockLayout[5][12].color = 1;
+
+
 	return blockLayout;
 }
