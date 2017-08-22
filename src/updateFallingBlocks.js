@@ -15,6 +15,7 @@ function updateFallingBlocks(){
     }
   }
 
+
   if(bothHaveLanded){
     if(fallingBlock[1].side === 'up'){
       addFallingBlockToArray(fallingBlock[0]);
