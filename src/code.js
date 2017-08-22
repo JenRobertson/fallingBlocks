@@ -53,7 +53,6 @@ function frame(){
 	updateFallingBlocks();
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
-
 	drawBlocks();
 
 	window.requestAnimationFrame(frame);
@@ -95,7 +94,6 @@ function getRandomBlockType(){
 		return 'block';
 }
 
-
 function calculateRow(block){
 	if(block.y > 0){
 		return Math.ceil(block.y/BLOCK_HEIGHT);
@@ -103,35 +101,30 @@ function calculateRow(block){
 	return 0;
 }
 
+function updateFallingBlockValues(block){
+	checkSurroundingBlocks(block);
+	block.row = calculateRow(block);
+	block.destinationY = getAvailableSpace(block.column).y;
+	block.isFalling = block.y < block.destinationY;
+
+	if(block.isFalling){//if its falling
+		block.y+= currentBlockFallSpeed;
+	}
+}
+
 function updateFallingBlocks(){
-	checkSurroundingBlocks(fallingBlock[0]);
-	fallingBlock[0].row = calculateRow(fallingBlock[0]);
-	fallingBlock[0].destinationY = getAvailableSpace(fallingBlock[0].column).y;
-	fallingBlock[0].isFalling = fallingBlock[0].y < fallingBlock[0].destinationY;
 
-	checkSurroundingBlocks(fallingBlock[1]);
-	fallingBlock[1].row = calculateRow(fallingBlock[1]);
-	fallingBlock[1].destinationY = getAvailableSpace(fallingBlock[1].column).y;
-	fallingBlock[1].isFalling = fallingBlock[1].y < fallingBlock[1].destinationY;
-
-	if(fallingBlock[0].isFalling){//if its falling
-		fallingBlock[0].y+= currentBlockFallSpeed;
-	}
-	if(fallingBlock[1].isFalling){//if its falling
-		fallingBlock[1].y+= currentBlockFallSpeed;
-	}
+	updateFallingBlockValues(fallingBlock[0]);
+	updateFallingBlockValues(fallingBlock[1]);
 
 	if(!fallingBlock[0].isFalling || !fallingBlock[1].isFalling){//if one has finished falling
 		if(fallingBlock[1].side === 'up'){
-		blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
+			blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
 			blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
-
 		}
 		else{
-			
 			blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
 			blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
-			
 		}
 		flipCount = 0;
 		spawnFallingBlocks();
@@ -160,7 +153,14 @@ function checkSurroundingBlocks(block){
     }
     else{
     	block.hasBlockBelow = false;
-    }
+		}
+		//up
+		if(blockLayout[block.column] && blockLayout[block.column][block.row - 1] && blockLayout[block.column][block.row - 1].type){
+			block.hasBlockAbove = true;
+		}
+		else{
+			block.hasBlockAbove = false;
+		}
 }
 
 function getAvailableSpace(column){
