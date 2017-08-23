@@ -16,11 +16,10 @@ function drawBlocks(){
 
 			var block = blockLayout[column][row];
 			if(block.type){
-                block.x = BLOCK_WIDTH * column;
-                block.y = BLOCK_HEIGHT * row;
+					block.x = BLOCK_WIDTH * column;
+					block.y = BLOCK_HEIGHT * row;
 				drawBlock(block);
 			}
-
 		}
 	}
 }

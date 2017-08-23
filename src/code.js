@@ -13,6 +13,7 @@ const BOARD_COLOR = '#a996e4';
 
 const BLOCK_FALL_SPEED_SLOW = 1;
 const BLOCK_FALL_SPEED_FAST = 10;
+const BLOCK_FALL_SPEED_SUPER_FAST = 25;
 
 const BREAKER_RARITY = 4;//higher is more rare
 
@@ -53,7 +54,6 @@ function frame(){
 	updateFallingBlocks();
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
-
 	drawBlocks();
 
 	window.requestAnimationFrame(frame);
@@ -93,92 +93,4 @@ function getRandomBlockType(){
 		return 'breaker';
 	}
 		return 'block';
-}
-
-
-function calculateRow(block){
-	if(block.y > 0){
-		return Math.ceil(block.y/BLOCK_HEIGHT);
-	}
-	return 0;
-}
-
-function updateFallingBlocks(){
-	checkSurroundingBlocks(fallingBlock[0]);
-	fallingBlock[0].row = calculateRow(fallingBlock[0]);
-	fallingBlock[0].destinationY = getAvailableSpace(fallingBlock[0].column).y;
-	fallingBlock[0].isFalling = fallingBlock[0].y < fallingBlock[0].destinationY;
-
-	checkSurroundingBlocks(fallingBlock[1]);
-	fallingBlock[1].row = calculateRow(fallingBlock[1]);
-	fallingBlock[1].destinationY = getAvailableSpace(fallingBlock[1].column).y;
-	fallingBlock[1].isFalling = fallingBlock[1].y < fallingBlock[1].destinationY;
-
-	if(fallingBlock[0].isFalling){//if its falling
-		fallingBlock[0].y+= currentBlockFallSpeed;
-	}
-	if(fallingBlock[1].isFalling){//if its falling
-		fallingBlock[1].y+= currentBlockFallSpeed;
-	}
-
-	if(!fallingBlock[0].isFalling || !fallingBlock[1].isFalling){//if one has finished falling
-		if(fallingBlock[1].side === 'up'){
-		blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
-			blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
-
-		}
-		else{
-			
-			blockLayout[fallingBlock[1].column][getAvailableRow(fallingBlock[1].column)] = fallingBlock[1];
-			blockLayout[fallingBlock[0].column][getAvailableRow(fallingBlock[0].column)] = fallingBlock[0];
-			
-		}
-		flipCount = 0;
-		spawnFallingBlocks();
-	}
-}
-
-function checkSurroundingBlocks(block){
-	//left
-    if(blockLayout[block.column - 1] && blockLayout[block.column - 1][block.row] && blockLayout[block.column - 1][block.row].type){
-    	block.hasBlockToLeft = true;
-    }
-    else{
-    	block.hasBlockToLeft = false;
-    }
-
-    //right
-    if(blockLayout[block.column + 1] && blockLayout[block.column + 1][block.row] && blockLayout[block.column + 1][block.row].type){
-    	block.hasBlockToRight = true;
-    }
-    else{
-    	block.hasBlockToRight = false;
-    }
-    //down
-    if(blockLayout[block.column] && blockLayout[block.column][block.row + 1] && blockLayout[block.column][block.row + 1].type){
-		block.hasBlockBelow = true;
-    }
-    else{
-    	block.hasBlockBelow = false;
-    }
-}
-
-function getAvailableSpace(column){
-	for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
-		if(blockLayout[column][row].type){
-			return blockLayout[column][row - 1];
-		}
-	}
-	return {y: BOARD_HEIGHT - BLOCK_HEIGHT};
-	//todo: handle a row being full
-}
-
-function getAvailableRow(column){
-	for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
-		if(blockLayout[column][row].type){
-			return row - 1;
-		}
-	}
-	return 12;
-	//todo: handle a row being full
 }
