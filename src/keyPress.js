@@ -52,8 +52,11 @@ function up(){
 	const isOnLeftEdge = fallingBlock[0].column === 0;
 
 	if(flipCount === 0){
-		if(fallingBlock[0].hasBlockToLeft) return;
-		if(isOnLeftEdge) return;
+		if(fallingBlock[0].hasBlockToLeft){ return;}
+		if(isOnLeftEdge){
+			moveRight(fallingBlock[0]);
+			moveRight(fallingBlock[1]);
+		}
 		flipToLeft();
 		flipCount++;
 	}
@@ -64,7 +67,10 @@ function up(){
 	}
 	else if(flipCount === 2){
 		if(fallingBlock[0].hasBlockToRight) return;
-		if(isOnRightEdge) return;
+		if(isOnRightEdge){
+			moveLeft(fallingBlock[0]);
+			moveLeft(fallingBlock[1]);
+		}
 		flipToRight();
 		flipCount++;
 	}

@@ -8,7 +8,7 @@ function drawBlock(block){
 	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
 
     ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-    ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
+    //ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
 }
 
 function drawBlocks(){
