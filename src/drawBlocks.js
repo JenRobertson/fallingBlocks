@@ -3,8 +3,9 @@ function drawBlock(block){
 
 	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
 	let image;
-	if (block.type === 'block') image = BLOCK_IMAGES[block.color];
-	if (block.type === 'breaker') image = BREAKER_IMAGES[block.color];
+	if (block.broken === true) return;
+	if (block.type === 'block') image = BLOCK_IMAGES[block.colour];
+	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
 
     ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
     ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
@@ -25,7 +26,7 @@ function drawBlocks(){
 }
 
 function drawBoardArea(){
-	ctx.fillStyle=BOARD_COLOR;
+	ctx.fillStyle=BOARD_COLOUR;
 	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.rect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.stroke();
