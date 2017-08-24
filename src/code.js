@@ -33,6 +33,7 @@ const BREAKER_IMAGES = [
 var fallingBlock = [];
 var blockLayout;
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
+var nothingBroke = true;
 
 window.onload = function () {
 	c = document.getElementById("myCanvas");
@@ -57,6 +58,10 @@ function frame(){
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
 	drawBlocks();
+
+	if(nothingBroke){
+		removeBrokenBlocks();
+	}
 
 	window.requestAnimationFrame(frame);
 }
