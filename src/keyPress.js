@@ -48,7 +48,6 @@ function right(){
 var flipCount = 0;
 
 function up(){
-	console.log(flipCount);
 	const isOnRightEdge = fallingBlock[0].column === BLOCKS_PER_ROW - 1;
 	const isOnLeftEdge = fallingBlock[0].column === 0;
 
@@ -56,7 +55,6 @@ function up(){
 		if(fallingBlock[0].hasBlockToLeft) return;
 		if(isOnLeftEdge) return;
 		flipToLeft();
-		console.log('here')
 		flipCount++;
 	}
 	else if(flipCount === 1){

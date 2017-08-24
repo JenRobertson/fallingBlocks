@@ -3,8 +3,9 @@ function drawBlock(block){
 
 	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
 	let image;
-	if (block.type === 'block') image = BLOCK_IMAGES[block.color];
-	if (block.type === 'breaker') image = BREAKER_IMAGES[block.color];
+	if (block.broken === true) return;
+	if (block.type === 'block') image = BLOCK_IMAGES[block.colour];
+	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
 
     ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
     ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
@@ -15,17 +16,17 @@ function drawBlocks(){
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
 
 			var block = blockLayout[column][row];
+			blockLayout[column][row].x = BLOCK_WIDTH * column;
+			blockLayout[column][row].y = BLOCK_HEIGHT * row;
 			if(block.type){
-					block.x = BLOCK_WIDTH * column;
-					block.y = BLOCK_HEIGHT * row;
-				drawBlock(block);
+				drawBlock(blockLayout[column][row]);
 			}
 		}
 	}
 }
 
 function drawBoardArea(){
-	ctx.fillStyle=BOARD_COLOR;
+	ctx.fillStyle=BOARD_COLOUR;
 	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.rect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.stroke();
