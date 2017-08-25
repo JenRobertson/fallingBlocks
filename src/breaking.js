@@ -53,7 +53,12 @@ function breakEverything(){
 function removeBrokenBlocks(){
   for (column = 0; column < BLOCKS_PER_ROW; column++) {
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
+
       if(blockLayout[column][row].broken){
+        if(blockLayout[column][row].breakingDelay < BREAKING_DELAY){
+          return;
+        }
+
         blockLayout[column].splice(row, 1);
         blockLayout[column].unshift({
           x:0,

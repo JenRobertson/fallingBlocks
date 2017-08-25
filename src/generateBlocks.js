@@ -15,7 +15,8 @@ function generateBlocksArray(){
 				colour: null,
 				column: column,
 				row: row,
-				destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
+				destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1),
+				breakingDelay: 0
 			}
 		}
 	}

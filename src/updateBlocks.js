@@ -14,6 +14,10 @@ function animateBlocks(){
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
       var block = blockLayout[column][row];
 
+      if(block.broken){
+        block.breakingDelay++;
+      }
+
       if (block.y < block.newY){
         block.y += BLOCK_FALL_SPEED_SUPER_FAST;
         somethingAnimated = true;

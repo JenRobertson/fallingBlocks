@@ -1,6 +1,7 @@
 //to do
 //- make doubles work TICK
-//- add a delay to breaking + animation
+//- add a delay to breaking TICK
+//- add breaking animation
 //- blocks flip if they are trapped in a one column
 //- deal with column being full
 //- smashing animation
@@ -25,7 +26,9 @@ const BLOCK_FALL_SPEED_SLOW = 2;
 const BLOCK_FALL_SPEED_FAST = 15;
 const BLOCK_FALL_SPEED_SUPER_FAST = 25;
 
+const BREAKING_DELAY = 20;//higher is more rare
 const BREAKER_RARITY = 4;//higher is more rare
+
 
 const BLOCK_IMAGES = [
 	document.getElementById("block1"),
@@ -93,6 +96,7 @@ function spawnFallingBlocks(){
 		column: 3,
 		row: -2,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1),
+		breakingDelay: 0
 
 	}
 	//flippy block
@@ -105,7 +109,8 @@ function spawnFallingBlocks(){
 		column: 3,
 		row: -1,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 2),
-		side: 'up'
+		side: 'up',
+		breakingDelay: 0
 	}
 }
 

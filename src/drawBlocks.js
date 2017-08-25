@@ -3,7 +3,8 @@ function drawBlock(block){
 
 	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
 	let image;
-	if (block.broken === true) return;
+	//must have been broken for 20 frames before not being drawn
+
 	if (block.type === 'block') image = BLOCK_IMAGES[block.colour];
 	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
 
