@@ -1,5 +1,6 @@
 //to do
-//- make doubles work
+//- make doubles work TICK
+//- add a delay to breaking + animation
 //- blocks flip if they are trapped in a one column
 //- deal with column being full
 //- smashing animation
@@ -43,6 +44,7 @@ var fallingBlock = [];
 var blockLayout;
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 var nothingBroke = true;
+var animationDone = false;
 
 window.onload = function () {
 	c = document.getElementById("myCanvas");
@@ -60,11 +62,16 @@ window.onload = function () {
 
 function frame(){
 	ctx.clearRect(0, 0, c.width, c.height);
-
 	drawBoardArea();
+
 	updateFallingBlocks();
 	animateBlocks();
-	breakEverything();
+
+	if(animationDone){
+		breakBreakers();
+		breakEverything();
+	}
+
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
 	drawBlocks();

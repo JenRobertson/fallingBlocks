@@ -9,16 +9,20 @@ function setNewYandX(){
 
 function animateBlocks(){
   setNewYandX();
+  var somethingAnimated = false;
   for (column = 0; column < BLOCKS_PER_ROW; column++) {
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
       var block = blockLayout[column][row];
 
       if (block.y < block.newY){
         block.y += BLOCK_FALL_SPEED_SUPER_FAST;
+        somethingAnimated = true;
+
       }
       if (block.y > block.newY){
         block.y = block.newY;
       }
     }
+    animationDone = !somethingAnimated;
   }
 }

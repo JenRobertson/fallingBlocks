@@ -26,7 +26,6 @@ function updateFallingBlocks(){
     }
     flipCount = 0;
     currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
-    breakBreakers();
     spawnFallingBlocks();
   }
 }
