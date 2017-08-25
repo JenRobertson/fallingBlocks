@@ -1,3 +1,12 @@
+//to do
+//- make doubles work
+//- blocks flip if they are trapped in a one column
+//- deal with column being full
+//- smashing animation
+//- graphics
+//- make group of blocks blob together
+//- scoring system
+
 const BLOCKS_PER_ROW = 6;
 const BLOCKS_PER_COLUMN = 13;
 const BLOCK_WIDTH = 52;
