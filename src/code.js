@@ -11,8 +11,8 @@ const BOARD_MARGIN_BOTTOM = 50;
 const BOARD_MARGIN_RIGHT = 100;
 const BOARD_COLOUR = '#a996e4';
 
-const BLOCK_FALL_SPEED_SLOW = 1;
-const BLOCK_FALL_SPEED_FAST = 10;
+const BLOCK_FALL_SPEED_SLOW = 2;
+const BLOCK_FALL_SPEED_FAST = 15;
 const BLOCK_FALL_SPEED_SUPER_FAST = 25;
 
 const BREAKER_RARITY = 4;//higher is more rare
@@ -54,6 +54,7 @@ function frame(){
 
 	drawBoardArea();
 	updateFallingBlocks();
+	animateBlocks();
 	breakEverything();
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);

@@ -16,8 +16,7 @@ function drawBlocks(){
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
 
 			var block = blockLayout[column][row];
-			blockLayout[column][row].x = BLOCK_WIDTH * column;
-			blockLayout[column][row].y = BLOCK_HEIGHT * row;
+
 			if(block.type){
 				drawBlock(blockLayout[column][row]);
 			}
