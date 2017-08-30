@@ -83,6 +83,9 @@ function frame(){
 		removeBrokenBlocks();
 	}
 
+	//
+	combineBlocks();
+
 	window.requestAnimationFrame(frame);
 }
 
