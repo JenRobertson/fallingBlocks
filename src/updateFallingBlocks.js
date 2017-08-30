@@ -15,7 +15,6 @@ function updateFallingBlocks(){
     }
   }
 
-
   if(bothHaveLanded){
     if(fallingBlock[1].side === 'up'){
       addFallingBlockToArray(fallingBlock[0]);
@@ -27,7 +26,6 @@ function updateFallingBlocks(){
     }
     flipCount = 0;
     currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
-    breakBreakers();
     spawnFallingBlocks();
   }
 }
@@ -56,14 +54,13 @@ function calculateRow(block){
 }
 
 function checkSurroundingBlocks(block){
-	//left
+	  //left
     if(blockLayout[block.column - 1] && blockLayout[block.column - 1][block.row] && blockLayout[block.column - 1][block.row].type){
     	block.hasBlockToLeft = true;
     }
     else{
     	block.hasBlockToLeft = false;
     }
-
     //right
     if(blockLayout[block.column + 1] && blockLayout[block.column + 1][block.row] && blockLayout[block.column + 1][block.row].type){
     	block.hasBlockToRight = true;

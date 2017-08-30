@@ -1,3 +1,14 @@
+//to do
+//- make doubles work TICK
+//- add a delay to breaking TICK
+//- add breaking animation
+//- blocks flip if they are trapped in a one column
+//- deal with column being full
+//- smashing animation
+//- graphics
+//- make group of blocks blob together
+//- scoring system
+
 const BLOCKS_PER_ROW = 6;
 const BLOCKS_PER_COLUMN = 13;
 const BLOCK_WIDTH = 52;
@@ -11,11 +22,13 @@ const BOARD_MARGIN_BOTTOM = 50;
 const BOARD_MARGIN_RIGHT = 100;
 const BOARD_COLOUR = '#a996e4';
 
-const BLOCK_FALL_SPEED_SLOW = 1;
-const BLOCK_FALL_SPEED_FAST = 10;
+const BLOCK_FALL_SPEED_SLOW = 2;
+const BLOCK_FALL_SPEED_FAST = 15;
 const BLOCK_FALL_SPEED_SUPER_FAST = 25;
 
+const BREAKING_DELAY = 20;//higher is more rare
 const BREAKER_RARITY = 4;//higher is more rare
+
 
 const BLOCK_IMAGES = [
 	document.getElementById("block1"),
@@ -34,6 +47,7 @@ var fallingBlock = [];
 var blockLayout;
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 var nothingBroke = true;
+var animationDone = false;
 
 window.onload = function () {
 	c = document.getElementById("myCanvas");
@@ -51,10 +65,16 @@ window.onload = function () {
 
 function frame(){
 	ctx.clearRect(0, 0, c.width, c.height);
-
 	drawBoardArea();
+
 	updateFallingBlocks();
-	breakEverything();
+	animateBlocks();
+
+	if(animationDone){
+		breakBreakers();
+		breakEverything();
+	}
+
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
 	drawBlocks();
@@ -76,6 +96,7 @@ function spawnFallingBlocks(){
 		column: 3,
 		row: -2,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1),
+		breakingDelay: 0
 
 	}
 	//flippy block
@@ -88,7 +109,8 @@ function spawnFallingBlocks(){
 		column: 3,
 		row: -1,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 2),
-		side: 'up'
+		side: 'up',
+		breakingDelay: 0
 	}
 }
 

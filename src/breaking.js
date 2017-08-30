@@ -15,8 +15,6 @@ function examineNeighbours(column, row){
 function breakBreakers(){
   for (column = 0; column < BLOCKS_PER_ROW; column++) {
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
-
-      // if(!blockLayout[column] || !blockLayout[column][row] || !blockLayout[column][row].type) continue;
       if(!blockLayout[column][row].type) continue;
 
       const block = blockLayout[column][row];
@@ -49,29 +47,26 @@ function breakEverything(){
         nothingBroke = false;
       }
     }
-    // if(nothingBroke){
-    //   // console.log('not breaking');
-    //   removeBrokenBlocks();
-    // }
-    // else{
-    //   // console.log('breaking');
-    // }
   }
 }
 
 function removeBrokenBlocks(){
   for (column = 0; column < BLOCKS_PER_ROW; column++) {
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
+
       if(blockLayout[column][row].broken){
+        if(blockLayout[column][row].breakingDelay < BREAKING_DELAY){
+          return;
+        }
+
         blockLayout[column].splice(row, 1);
         blockLayout[column].unshift({
-          x:1,
-          y:1,
+          x:0,
+          y:0,
           type: null,
           colour: null,
           column: column,
           row: row,
-          // destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1)
         });
       }
     }

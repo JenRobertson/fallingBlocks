@@ -3,12 +3,13 @@ function drawBlock(block){
 
 	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
 	let image;
-	if (block.broken === true) return;
+	//must have been broken for 20 frames before not being drawn
+
 	if (block.type === 'block') image = BLOCK_IMAGES[block.colour];
 	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
 
     ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-    ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
+    //ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
 }
 
 function drawBlocks(){
@@ -16,8 +17,7 @@ function drawBlocks(){
 		for (row = 0; row < BLOCKS_PER_COLUMN; row++) {
 
 			var block = blockLayout[column][row];
-			blockLayout[column][row].x = BLOCK_WIDTH * column;
-			blockLayout[column][row].y = BLOCK_HEIGHT * row;
+
 			if(block.type){
 				drawBlock(blockLayout[column][row]);
 			}
