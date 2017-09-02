@@ -1,20 +1,18 @@
 function drawBlock(block){
 	ctx.beginPath();
 
-	// ctx.fillRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-	let image;
-	//must have been broken for 20 frames before not being drawn
+	let type;
+	if (block.type === 'block') type = 0;
+	if (block.type === 'breaker') type = 1;
 
-	if (block.type === 'block') image = BLOCK_IMAGES[block.colour];
-	if (block.type === 'breaker') image = BREAKER_IMAGES[block.colour];
-
-    ctx.drawImage(image, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-    if(block.combined){
-	    ctx.strokeStyle = '#fff';
-	    ctx.lineWidth = 2; 
-	    ctx.strokeRect( BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
-	}
-    //ctx.fillText(block.column + ' ' + block.row, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y + 20,BLOCK_WIDTH,BLOCK_HEIGHT);
+	//sprite must be 4 x 2 with breakers at bottom
+    ctx.drawImage(BLOCK_SPRITE, (block.colour * BLOCK_WIDTH), (type * BLOCK_HEIGHT), BLOCK_WIDTH, BLOCK_HEIGHT, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y, BLOCK_WIDTH, BLOCK_HEIGHT);
+   	
+   	if(block.type === 'block' && !block.combined){
+   		ctx.strokeStyle = '#000';
+		ctx.lineWidth = 0.5; 
+		ctx.strokeRect(BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y ,BLOCK_WIDTH,BLOCK_HEIGHT);
+   	}
 }
 
 function drawBlocks(){
@@ -31,9 +29,22 @@ function drawBlocks(){
 }
 
 function drawBoardArea(){
+
+	// console.log('draw');
+
+	//background
+	ctx.drawImage(BG,0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+	ctx.globalAlpha = 0.5;
+
 	ctx.fillStyle=BOARD_COLOUR;
-	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
+	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);//play area
+
+	ctx.globalAlpha =1;
+
+
 	ctx.rect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.stroke();
-	ctx.fillStyle='#000000';
+
+	// ctx.fillStyle='#000000';
 }
