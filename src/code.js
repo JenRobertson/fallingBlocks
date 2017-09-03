@@ -37,6 +37,8 @@ const BLOCK_SPRITE = document.getElementById("blockSprite");
 const BG = document.getElementById("bg");
 
 var fallingBlock = [];
+var nextFallingBlock = [];
+
 var blockLayout;
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 var nothingBroke = true;
@@ -50,6 +52,7 @@ window.onload = function () {
 	
 	ctx = c.getContext("2d");
 
+	spawnNextFallingBlocks();
 	spawnFallingBlocks();
 	blockLayout = generateBlocksArray();
 	console.log(blockLayout);
@@ -63,9 +66,6 @@ function frame(){
 
 	drawBoardArea();
 
-	////
-	ctx.drawImage(BLOCK_SPRITE, (1 * BLOCK_WIDTH), 0, BLOCK_WIDTH, BLOCK_HEIGHT, 0, 0, BLOCK_WIDTH, BLOCK_HEIGHT);
-
 	updateFallingBlocks();
 	animateBlocks();
 
@@ -76,6 +76,10 @@ function frame(){
 
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
+	drawBlock(nextFallingBlock[0]);
+	drawBlock(nextFallingBlock[1]);
+
+
 	drawBlocks();
 
 	if(nothingBroke){
@@ -84,8 +88,25 @@ function frame(){
 
 	//
 	combineBlocks();
+	// getBoxSize();
 
 	window.requestAnimationFrame(frame);
+}
+
+
+function spawnNextFallingBlocks(){
+	nextFallingBlock[0] = {
+		colour: Math.floor((Math.random() * 4) + 0),
+		type: getRandomBlockType(),
+		x: -BOARD_MARGIN_LEFT + 20,
+		y: 10 + BLOCK_HEIGHT
+	}
+	nextFallingBlock[1] = {
+		colour: Math.floor((Math.random() * 4) + 0),
+		type: getRandomBlockType(),
+		x: -BOARD_MARGIN_LEFT + 20,
+		y: 10 
+	}
 }
 
 function spawnFallingBlocks(){
@@ -93,8 +114,8 @@ function spawnFallingBlocks(){
 	fallingBlock[0] = {
 		x: BLOCK_WIDTH * 3,
 		y: -BLOCK_HEIGHT,
-		type: getRandomBlockType(),
-		colour: Math.floor((Math.random() * 4) + 0),//colour
+		type: nextFallingBlock[0].type,
+		colour: nextFallingBlock[0].colour,
 		column: 3,
 		row: -2,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1),
@@ -106,14 +127,15 @@ function spawnFallingBlocks(){
 		side: 'top',
 		x: BLOCK_WIDTH * 3,
 		y: -(BLOCK_HEIGHT * 2),
-		type: getRandomBlockType(),
-		colour: Math.floor((Math.random() * 4) + 0),//colour
+		type: nextFallingBlock[1].type,
+		colour: nextFallingBlock[1].colour,
 		column: 3,
 		row: -1,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 2),
 		side: 'up',
 		breakingDelay: 0
 	}
+	spawnNextFallingBlocks();
 }
 
 function getRandomBlockType(){

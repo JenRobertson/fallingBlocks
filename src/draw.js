@@ -29,13 +29,10 @@ function drawBlocks(){
 }
 
 function drawBoardArea(){
-
-	// console.log('draw');
-
-	//background
+	//draw b
 	ctx.drawImage(BG,0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-	ctx.globalAlpha = 0.5;
+	ctx.globalAlpha = 0.7;
 
 	ctx.fillStyle=BOARD_COLOUR;
 	ctx.fillRect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);//play area
@@ -45,6 +42,4 @@ function drawBoardArea(){
 
 	ctx.rect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.stroke();
-
-	// ctx.fillStyle='#000000';
 }

@@ -8,7 +8,7 @@ function combineBlocks(){
 			const downRight =  blockLayout[c + 1] && blockLayout[c + 1][r + 1] && blockLayout[c + 1][r + 1].colour;
 
 			if(block.combined != true && block.colour != null && block.colour === right && block.colour === down && block.colour === downRight){
-				console.log('I am the corner of a square');
+				// console.log('I am the corner of a square');
 				block.combined = true;
 				blockLayout[c + 1][r].combined = true;
 				blockLayout[c][r + 1].combined = true;
@@ -17,6 +17,4 @@ function combineBlocks(){
     	}
   	}
 }
-
-//if 
 
