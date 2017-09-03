@@ -11,7 +11,7 @@
 
 const BLOCKS_PER_ROW = 6;
 const BLOCKS_PER_COLUMN = 13;
-const BLOCK_WIDTH = 52;
+const BLOCK_WIDTH = 50;
 const BLOCK_HEIGHT = 60;
 
 const BOARD_WIDTH = BLOCKS_PER_ROW * BLOCK_WIDTH;
@@ -20,7 +20,10 @@ const BOARD_MARGIN_TOP = 5;
 const BOARD_MARGIN_LEFT = 100;
 const BOARD_MARGIN_BOTTOM = 50;
 const BOARD_MARGIN_RIGHT = 100;
-const BOARD_COLOUR = '#a996e4';
+const BOARD_COLOUR = '#FFFFFF';
+
+const CANVAS_WIDTH = BOARD_WIDTH + BOARD_MARGIN_LEFT + BOARD_MARGIN_RIGHT;
+const CANVAS_HEIGHT = BOARD_HEIGHT + BOARD_MARGIN_TOP + BOARD_MARGIN_BOTTOM;
 
 const BLOCK_FALL_SPEED_SLOW = 2;
 const BLOCK_FALL_SPEED_FAST = 15;
@@ -30,18 +33,8 @@ const BREAKING_DELAY = 20;//higher is more rare
 const BREAKER_RARITY = 4;//higher is more rare
 
 
-const BLOCK_IMAGES = [
-	document.getElementById("block1"),
-	document.getElementById("block2"),
-	document.getElementById("block3"),
-	document.getElementById("block4")
-];
-const BREAKER_IMAGES = [
-	document.getElementById("breaker1"),
-	document.getElementById("breaker2"),
-	document.getElementById("breaker3"),
-	document.getElementById("breaker4")
-];
+const BLOCK_SPRITE = document.getElementById("blockSprite");
+const BG = document.getElementById("bg");
 
 var fallingBlock = [];
 var blockLayout;
@@ -52,9 +45,9 @@ var animationDone = false;
 window.onload = function () {
 	c = document.getElementById("myCanvas");
 
-	c.width = BOARD_WIDTH + BOARD_MARGIN_LEFT + BOARD_MARGIN_RIGHT;
-	c.height = BOARD_HEIGHT + BOARD_MARGIN_TOP + BOARD_MARGIN_BOTTOM;
-
+	c.width = CANVAS_WIDTH;
+	c.height = CANVAS_HEIGHT;
+	
 	ctx = c.getContext("2d");
 
 	spawnFallingBlocks();
@@ -64,8 +57,14 @@ window.onload = function () {
 }
 
 function frame(){
-	ctx.clearRect(0, 0, c.width, c.height);
+	// ctx.clearRect(0, 0, c.width, c.height);
+
+	ctx.clearRect(0,0,10000,500000);
+
 	drawBoardArea();
+
+	////
+	ctx.drawImage(BLOCK_SPRITE, (1 * BLOCK_WIDTH), 0, BLOCK_WIDTH, BLOCK_HEIGHT, 0, 0, BLOCK_WIDTH, BLOCK_HEIGHT);
 
 	updateFallingBlocks();
 	animateBlocks();
@@ -82,6 +81,9 @@ function frame(){
 	if(nothingBroke){
 		removeBrokenBlocks();
 	}
+
+	//
+	combineBlocks();
 
 	window.requestAnimationFrame(frame);
 }
