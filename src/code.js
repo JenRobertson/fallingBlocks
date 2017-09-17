@@ -16,9 +16,9 @@ const BLOCK_HEIGHT = 60;
 
 const BOARD_WIDTH = BLOCKS_PER_ROW * BLOCK_WIDTH;
 const BOARD_HEIGHT = BLOCKS_PER_COLUMN * BLOCK_HEIGHT;
-const BOARD_MARGIN_TOP = 5;
+const BOARD_MARGIN_TOP = 50;
 const BOARD_MARGIN_LEFT = 100;
-const BOARD_MARGIN_BOTTOM = 50;
+const BOARD_MARGIN_BOTTOM = 5;
 const BOARD_MARGIN_RIGHT = 100;
 const BOARD_COLOUR = '#FFFFFF';
 
@@ -35,6 +35,7 @@ const BREAKER_RARITY = 4;//higher is more rare
 
 const BLOCK_SPRITE = document.getElementById("blockSprite");
 const BG = document.getElementById("bg");
+const OVERLAY = document.getElementById("overlay");
 
 var fallingBlock = [];
 var nextFallingBlock = [];
@@ -80,6 +81,8 @@ function frame(){
 	drawBlock(nextFallingBlock[1]);
 
 
+	// ctx.clearRect(0,0,CANVAS_WIDTH,BOARD_MARGIN_TOP);
+	
 	drawBlocks();
 
 	if(nothingBroke){

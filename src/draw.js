@@ -6,7 +6,7 @@ function drawBlock(block){
 	if (block.type === 'breaker') type = 1;
 
 	//sprite must be 4 x 2 with breakers at bottom
-    ctx.drawImage(BLOCK_SPRITE, (block.colour * BLOCK_WIDTH), (type * BLOCK_HEIGHT), BLOCK_WIDTH, BLOCK_HEIGHT, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y, BLOCK_WIDTH, BLOCK_HEIGHT);
+    ctx.drawImage(BLOCK_SPRITE, (block.colour * BLOCK_WIDTH) * 5, (type * BLOCK_HEIGHT) * 5, BLOCK_WIDTH * 5, BLOCK_HEIGHT * 5, BOARD_MARGIN_LEFT + block.x,BOARD_MARGIN_TOP + block.y, BLOCK_WIDTH, BLOCK_HEIGHT);
    	
    	if(block.type === 'block' && !block.combined){
    		ctx.strokeStyle = '#000';
@@ -42,4 +42,5 @@ function drawBoardArea(){
 
 	ctx.rect(BOARD_MARGIN_LEFT,BOARD_MARGIN_TOP,BOARD_WIDTH,BOARD_HEIGHT);
 	ctx.stroke();
+	ctx.drawImage(OVERLAY,0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 }
