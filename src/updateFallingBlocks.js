@@ -43,6 +43,11 @@ function updateFallingBlockValues(block){
 
 function addFallingBlockToArray(block){
   blockLayout[block.column][getColumnHeight(block.column)] = block;
+  console.log(getColumnHeight(block.column));
+  if( getColumnHeight(block.column) <= -1){
+    alert('Game Over');
+    start();
+  }
 }
 
 

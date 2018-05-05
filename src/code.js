@@ -16,9 +16,9 @@ const BLOCK_HEIGHT = 60;
 
 const BOARD_WIDTH = BLOCKS_PER_ROW * BLOCK_WIDTH;
 const BOARD_HEIGHT = BLOCKS_PER_COLUMN * BLOCK_HEIGHT;
-const BOARD_MARGIN_TOP = 5;
+const BOARD_MARGIN_TOP = 50;
 const BOARD_MARGIN_LEFT = 100;
-const BOARD_MARGIN_BOTTOM = 50;
+const BOARD_MARGIN_BOTTOM = 5;
 const BOARD_MARGIN_RIGHT = 100;
 const BOARD_COLOUR = '#FFFFFF';
 
@@ -35,14 +35,21 @@ const BREAKER_RARITY = 4;//higher is more rare
 
 const BLOCK_SPRITE = document.getElementById("blockSprite");
 const BG = document.getElementById("bg");
+const OVERLAY = document.getElementById("overlay");
 
 var fallingBlock = [];
+var nextFallingBlock = [];
+
 var blockLayout;
 var currentBlockFallSpeed = BLOCK_FALL_SPEED_SLOW;
 var nothingBroke = true;
 var animationDone = false;
 
 window.onload = function () {
+	start();
+}
+
+function start(){
 	c = document.getElementById("myCanvas");
 
 	c.width = CANVAS_WIDTH;
@@ -50,9 +57,10 @@ window.onload = function () {
 	
 	ctx = c.getContext("2d");
 
+	spawnNextFallingBlocks();
 	spawnFallingBlocks();
 	blockLayout = generateBlocksArray();
-	console.log(blockLayout);
+	// console.log(blockLayout);
 	window.requestAnimationFrame(frame);
 }
 
@@ -62,9 +70,6 @@ function frame(){
 	ctx.clearRect(0,0,10000,500000);
 
 	drawBoardArea();
-
-	////
-	ctx.drawImage(BLOCK_SPRITE, (1 * BLOCK_WIDTH), 0, BLOCK_WIDTH, BLOCK_HEIGHT, 0, 0, BLOCK_WIDTH, BLOCK_HEIGHT);
 
 	updateFallingBlocks();
 	animateBlocks();
@@ -76,6 +81,12 @@ function frame(){
 
 	drawBlock(fallingBlock[0]);
 	drawBlock(fallingBlock[1]);
+	drawBlock(nextFallingBlock[0]);
+	drawBlock(nextFallingBlock[1]);
+
+
+	// ctx.clearRect(0,0,CANVAS_WIDTH,BOARD_MARGIN_TOP);
+	
 	drawBlocks();
 
 	if(nothingBroke){
@@ -84,8 +95,25 @@ function frame(){
 
 	//
 	combineBlocks();
+	// getBoxSize();
 
 	window.requestAnimationFrame(frame);
+}
+
+
+function spawnNextFallingBlocks(){
+	nextFallingBlock[0] = {
+		colour: Math.floor((Math.random() * 4) + 0),
+		type: getRandomBlockType(),
+		x: -BOARD_MARGIN_LEFT + 20,
+		y: 10 + BLOCK_HEIGHT
+	}
+	nextFallingBlock[1] = {
+		colour: Math.floor((Math.random() * 4) + 0),
+		type: getRandomBlockType(),
+		x: -BOARD_MARGIN_LEFT + 20,
+		y: 10 
+	}
 }
 
 function spawnFallingBlocks(){
@@ -93,8 +121,8 @@ function spawnFallingBlocks(){
 	fallingBlock[0] = {
 		x: BLOCK_WIDTH * 3,
 		y: -BLOCK_HEIGHT,
-		type: getRandomBlockType(),
-		colour: Math.floor((Math.random() * 4) + 0),//colour
+		type: nextFallingBlock[0].type,
+		colour: nextFallingBlock[0].colour,
 		column: 3,
 		row: -2,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 1),
@@ -106,14 +134,15 @@ function spawnFallingBlocks(){
 		side: 'top',
 		x: BLOCK_WIDTH * 3,
 		y: -(BLOCK_HEIGHT * 2),
-		type: getRandomBlockType(),
-		colour: Math.floor((Math.random() * 4) + 0),//colour
+		type: nextFallingBlock[1].type,
+		colour: nextFallingBlock[1].colour,
 		column: 3,
 		row: -1,
 		destinationY: BLOCK_HEIGHT * (BLOCKS_PER_COLUMN - 2),
 		side: 'up',
 		breakingDelay: 0
 	}
+	spawnNextFallingBlocks();
 }
 
 function getRandomBlockType(){
