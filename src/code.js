@@ -46,6 +46,10 @@ var nothingBroke = true;
 var animationDone = false;
 
 window.onload = function () {
+	start();
+}
+
+function start(){
 	c = document.getElementById("myCanvas");
 
 	c.width = CANVAS_WIDTH;
@@ -56,7 +60,7 @@ window.onload = function () {
 	spawnNextFallingBlocks();
 	spawnFallingBlocks();
 	blockLayout = generateBlocksArray();
-	console.log(blockLayout);
+	// console.log(blockLayout);
 	window.requestAnimationFrame(frame);
 }
 
